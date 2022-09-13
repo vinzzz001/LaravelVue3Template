@@ -1,7 +1,8 @@
 ## Application installation
 
 1. configure .env file
-2. npm install
+2. composer update
+3. npm install
 
 ## Running the Application
 
