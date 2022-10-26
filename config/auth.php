@@ -13,8 +13,10 @@ return [
     |
     */
 
+    //? Use API instead of WEB.
+    //# https://laravel-jwt-auth.readthedocs.io/en/latest/quick-start/
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'api',
         'passwords' => 'users',
     ],
 
@@ -35,9 +37,10 @@ return [
     |
     */
 
+    //? Use API instead of WEB.
     'guards' => [
-        'web' => [
-            'driver' => 'session',
+        'api' => [
+            'driver' => 'jwt',
             'provider' => 'users',
         ],
     ],

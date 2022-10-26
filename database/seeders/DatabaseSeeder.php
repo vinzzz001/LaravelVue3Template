@@ -14,8 +14,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
 
+        // Separate call to the UserSeeder as to generate a specific test user.
+        $this->call([
+            UserSeeder::class,
+        ]);
+
+
+        \App\Models\User::factory(10)->create();
+        \App\Models\Status::factory(10)->create();
+        \App\Models\Category::factory(10)->create();
+        \App\Models\Response::factory(10)->create();
+        \App\Models\Ticket::factory(10)->create();
+
+        // \App\Models\User::factory(10)->create();
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
