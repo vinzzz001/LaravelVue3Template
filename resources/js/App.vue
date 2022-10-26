@@ -1,14 +1,11 @@
 <script setup>
-import Tickets from '../views/pages/tickets/index.vue';
-
-
-
+import loginVue from './components/users/login.vue';
+import tickets from './pages/tickets/index.vue'
 
 </script>
 
 <template>
+   <loginVue></loginVue>
    <h1>Laravel 9 & Vue3 Test</h1>
-   <Tickets>Test</Tickets>
-
-
+   <tickets>CLICK</tickets>
 </template>
