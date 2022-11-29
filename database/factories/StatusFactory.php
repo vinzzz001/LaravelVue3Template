@@ -17,7 +17,7 @@ class StatusFactory extends Factory
     public function definition()
     {
         return [
-            'title' => fake()->sentence(6),
+            'title' => fake()->randomElement(['todo', 'in progress', 'done']),
         ];
     }
 }

@@ -11,6 +11,9 @@
 
 <body>
 	<div id="app"></div>
+	<!-- //todo: remove this next line? -->
+	<!-- <script type="module" src="/src/main.ts"></script> -->
+
 </body>
 
 </html>

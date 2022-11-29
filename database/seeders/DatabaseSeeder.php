@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,7 +24,11 @@ class DatabaseSeeder extends Seeder
 
 
         \App\Models\User::factory(10)->create();
-        \App\Models\Status::factory(10)->create();
+        \App\Models\Status::factory(3)->state(new Sequence(
+            ['title' => 'todo'],
+            ['title' => 'in progress'],
+            ['title' => 'done'],
+        ))->create();
         \App\Models\Category::factory(10)->create();
         \App\Models\Response::factory(10)->create();
         \App\Models\Ticket::factory(10)->create();

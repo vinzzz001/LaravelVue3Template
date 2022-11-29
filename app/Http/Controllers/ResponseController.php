@@ -15,7 +15,7 @@ class ResponseController extends Controller
      */
     public function index()
     {
-        //
+        return Response::all();
     }
 
     /**

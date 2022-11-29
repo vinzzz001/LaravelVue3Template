@@ -3,34 +3,57 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Auth\Guard;
+
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use PHPOpenSourceSaver\JWTAuth\JWTGuard;
 
 class AuthController extends Controller
 {
+    private const COOKIE_NAME = 'Authorization';
+    private JWTGuard $guard;
+
     /**
      * Create a new AuthController instance.
      *
+     * @param Guard $guard
      * @return void
      */
-    public function __construct()
+    public function __construct(Guard $guard)
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->guard = $guard;
     }
+
+
 
     /**
      * Get a JWT via given credentials.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(): JsonResponse
     {
         $credentials = request(['email', 'password']);
-
         if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->respondWithToken($token);
+        $user = $this->guard->userOrFail();
+
+        $responseData = [
+            'status' => 'success',
+            'user' => $user,
+            // 'user' => new LoggedInUserResource($user),
+        ];
+
+        //todo: ask what this 'production' does here. 
+        $secureCookie = config('app.env') === 'production';
+
+        return (new JsonResponse($responseData, Response::HTTP_OK))
+            ->cookie(self::COOKIE_NAME, "Bearer {$token}", 60 * 24 * 30, '/', '', $secureCookie, true);
     }
 
     /**
@@ -40,7 +63,9 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        return response()->json(
+            auth()->user(),
+        );
     }
 
     /**
@@ -63,21 +88,5 @@ class AuthController extends Controller
     public function refresh()
     {
         return $this->respondWithToken(auth()->refresh());
-    }
-
-    /**
-     * Get the token array structure.
-     *
-     * @param string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
     }
 }

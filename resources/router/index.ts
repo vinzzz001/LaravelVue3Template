@@ -1,13 +1,18 @@
+//todo: create some paths
+import ticketOverviewPage from "../js/pages/tickets/overview.vue";
+import ticketShowPage from "../js/pages/tickets/show.vue"
+import ticketCreatePage from "../js/pages/tickets/create.vue"
 
+import loginPage from "../js/pages/users/index.vue"
 
-// { path: string, name: string, component: Component, props?: boolean }
+// { path: string, name: string, component: Component, props ?: boolean }
 export const routes = [
-    // { path: '/', name: 'Home', component: indexPage },
-    // { path: '/create', name: 'Create', component: createPage },
-    // { path: '/order', name: 'Order', component: orderPage },
-    // {
-    //     path: '/edit/:id',
-    //     name: 'Edit',
-    //     component: editPage,
-    // },
+
+    { path: '/tickets', name: 'Tickets', component: ticketOverviewPage },
+    { path: '/tickets/:id', name: 'TicketShow', component: ticketShowPage },
+    { path: '/tickets-create', name: 'TicketCreate', component: ticketCreatePage },
+
+
+
+    { path: '/login', name: 'Login', component: loginPage },
 ];

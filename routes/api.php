@@ -1,8 +1,14 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+namespace App\Http\Controllers;
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ResponseController;
+use App\Http\Controllers\StatusController;
+use App\Http\Controllers\TicketController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,15 +20,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group([
+Route::post('login', [AuthController::class, 'login']);
 
-    'middleware' => 'api',
-    'prefix' => 'auth'
-
-], function ($router) {
-
-    Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
+Route::middleware(['auth'])->group(function () {
+    Route::get('me', [AuthController::Class, 'me']);
+    Route::get('logout', [AuthController::Class, 'logout']);
+    Route::post('refresh', [AuthController::Class, 'refresh']);
 });
+
+Route::get('tickets', [TicketController::Class, 'index']);
+Route::get('tickets/{ticket}', [TicketController::Class, 'show']);
+// Route::get('tickets/create', [TicketController::Class, 'create']);
+
+
+Route::get('users', [UserController::Class, 'index']);
+Route::get('responses', [ResponseController::Class, 'index']);
+Route::get('statuses', [StatusController::Class, 'index']);
+Route::get('categories', [CategoryController::Class, 'index']);

@@ -15,7 +15,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
+        return Ticket::all();
     }
 
     /**
@@ -47,7 +47,7 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        //
+        return $ticket;
     }
 
     /**
