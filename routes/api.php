@@ -30,6 +30,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('tickets', [TicketController::Class, 'index']);
 Route::get('tickets/{ticket}', [TicketController::Class, 'show']);
+Route::post('tickets',[TicketController::Class, 'store']);
 // Route::get('tickets/create', [TicketController::Class, 'create']);
 
 

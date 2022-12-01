@@ -61,4 +61,3 @@ export interface Credentials {
 // const integer = (x: number) => {
 //     return x % 1 ? x : false;
 // };
-

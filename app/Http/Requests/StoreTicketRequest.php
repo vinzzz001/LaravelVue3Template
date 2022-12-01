@@ -13,7 +13,7 @@ class StoreTicketRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,15 @@ class StoreTicketRequest extends FormRequest
      */
     public function rules()
     {
+        //todo: Create validation rules.
         return [
-            //
+            'title'=> 'required|string' ,
+            'content'=> 'nullable|text',
+            'category_id'=> 'required|numeric',
+            'status_id'=> 'required|numeric',
+            'user_id'=> 'required|numeric',
+            'assigned_to'=> 'nullable|numeric'
+
         ];
     }
 }

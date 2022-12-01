@@ -1,32 +1,26 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { Credentials, User } from '../../types'
-import { authStore } from '../../store/authStore';
+import type { Credentials } from '../../types'
+import {store as createAuthStore} from '../../store/authStore';
+
+const authStore = createAuthStore;
 
 //Todo: Remove the temporary email/password
 const credentials = ref<Credentials>({ 'email': 'vinzzz001@gmail.com', 'password': 'password' });
-const loginForm = () => {
-    authStore().actions.login(credentials.value)
-}
+const passwordFieldType = ref<'password' | 'current-password'>('password');
 
-const me = () => {
-    authStore().actions.me();
-}
-
-const logout = () => {
-    authStore().actions.logout();
-}
-
+const loginForm = () => authStore.actions.login(credentials.value)
+const logout = () => authStore.actions.logout();
+const switchType = () => passwordFieldType.value = passwordFieldType.value === 'password' ? 'current-password' : 'password';
 
 /**
- * Switches password type between visible and protected text. 
+ * Switches password type between visible and protected text.
  */
-const switchType = () => passwordFieldType.value = passwordFieldType.value === 'password' ? 'current-password' : 'password';
-const passwordFieldType = ref<'password' | 'current-password'>('password');
 
 </script>
 
 <template>
+    <pre>{{authStore.getters.me}}</pre>
     Remove temp password/email later
     <form action="" @submit.prevent="loginForm()">
         Email:
@@ -38,7 +32,6 @@ const passwordFieldType = ref<'password' | 'current-password'>('password');
         <button @click.prevent='switchType()'>Show Password</button>
         <br />
     </form>
-    <button @click="me()">me</button>
     <button @click="logout()">logout</button>
 
 </template>

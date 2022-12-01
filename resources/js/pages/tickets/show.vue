@@ -3,12 +3,14 @@ import { RouterLink, useRoute } from 'vue-router';
 import { ticketStore } from '../../store/factory';
 
 
-//Get the ID from the route 
+//Get the ID from the route
 const route = useRoute();
-const id: number = parseInt(route.params.id);
 
-ticketStore.actions.getById(id);
-const ticket = ticketStore.getters.byId(id);
+//@ts-ignore //Typescript has difficulties with params.id since it could also be an array.
+const ticketId: number = parseInt(route.params.id) || 0;
+
+ticketStore.actions.getById(ticketId);
+const ticket = ticketStore.getters.byId(ticketId);
 
 
 
