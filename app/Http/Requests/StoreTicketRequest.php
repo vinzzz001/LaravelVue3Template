@@ -26,12 +26,11 @@ class StoreTicketRequest extends FormRequest
         //todo: Create validation rules.
         return [
             'title'=> 'required|string' ,
-            'content'=> 'nullable|text',
+            'content'=> 'nullable|string',
             'category_id'=> 'required|numeric',
             'status_id'=> 'required|numeric',
-            'user_id'=> 'required|numeric',
+            'user_id'=> 'nullable|numeric',
             'assigned_to'=> 'nullable|numeric'
-
         ];
     }
 }

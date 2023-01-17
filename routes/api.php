@@ -20,21 +20,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//These pages don't need the user to be signed in.
 Route::post('login', [AuthController::class, 'login']);
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('me', [AuthController::Class, 'me']);
-    Route::get('logout', [AuthController::Class, 'logout']);
-    Route::post('refresh', [AuthController::Class, 'refresh']);
-});
-
 Route::get('tickets', [TicketController::Class, 'index']);
 Route::get('tickets/{ticket}', [TicketController::Class, 'show']);
-Route::post('tickets',[TicketController::Class, 'store']);
-// Route::get('tickets/create', [TicketController::Class, 'create']);
-
 
 Route::get('users', [UserController::Class, 'index']);
 Route::get('responses', [ResponseController::Class, 'index']);
 Route::get('statuses', [StatusController::Class, 'index']);
 Route::get('categories', [CategoryController::Class, 'index']);
+
+
+
+//Todo: Remove pages that do not require login.
+//These pages require the user to be signed in.
+Route::middleware(['auth'])->group(function () {
+    Route::get('me', [AuthController::Class, 'me']);
+    Route::get('logout', [AuthController::Class, 'logout']);
+    Route::post('refresh', [AuthController::Class, 'refresh']);
+    Route::post('tickets/{ticket}',[TicketController::Class, 'update']);
+
+    Route::post('tickets',[TicketController::Class, 'store']);
+
+    // Route::get('tickets/create', [TicketController::Class, 'create']);
+
+
+
+});

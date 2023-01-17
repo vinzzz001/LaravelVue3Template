@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Contracts\Auth\Guard;
 
+use Illuminate\Contracts\Auth\Guard;
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use PHPOpenSourceSaver\JWTAuth\JWTGuard;
@@ -37,6 +35,7 @@ class AuthController extends Controller
     public function login(): JsonResponse
     {
         $credentials = request(['email', 'password']);
+
         if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
@@ -49,11 +48,11 @@ class AuthController extends Controller
             // 'user' => new LoggedInUserResource($user),
         ];
 
-        //todo: ask what this 'production' does here. 
+        //todo: ask what this 'production' does here.
         $secureCookie = config('app.env') === 'production';
 
-        return (new JsonResponse($responseData, Response::HTTP_OK))
-            ->cookie(self::COOKIE_NAME, "Bearer {$token}", 60 * 24 * 30, '/', '', $secureCookie, true);
+        return (new JsonResponse($responseData, Response::HTTP_OK))->cookie(self::COOKIE_NAME, "Bearer {$token}", 60 * 24 * 30, '/', '', $secureCookie, true);
+
     }
 
     /**
@@ -76,7 +75,6 @@ class AuthController extends Controller
     public function logout()
     {
         auth()->logout();
-
         return response()->json(['message' => 'Successfully logged out']);
     }
 

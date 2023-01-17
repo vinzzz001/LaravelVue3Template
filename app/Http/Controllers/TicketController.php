@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
+use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
@@ -26,7 +27,14 @@ class TicketController extends Controller
      */
     public function store(StoreTicketRequest $request)
     {
-        dd($request->validated());
+        $validated = $request->validated();
+        $ticket = Ticket::Create($validated);
+
+
+        $ticket->user_id = auth()->id();
+        $ticket->push();
+
+        return $ticket;
     }
 
     /**
@@ -41,17 +49,6 @@ class TicketController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Ticket  $ticket
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Ticket $ticket)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateTicketRequest  $request
@@ -60,7 +57,10 @@ class TicketController extends Controller
      */
     public function update(UpdateTicketRequest $request, Ticket $ticket)
     {
-        //
+        $validated = $request->validated();
+        $ticket->update($validated);
+
+        return $ticket;
     }
 
     /**

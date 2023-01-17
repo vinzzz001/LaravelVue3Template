@@ -12,12 +12,11 @@
 // const total = (total, value, index, array) => {
 //     return total + value
 // }
-
 </script>
 
 <template>
-    <div></div>
-                <!--
+  <div></div>
+  <!--
                 Parts: <input type="number" v-model="parts">
                 <br>
                 <div v-if="arrayR[0] != null"> {{arrayR, arrayR.reduce(total)}} </div>

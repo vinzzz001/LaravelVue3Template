@@ -10,6 +10,7 @@ class Ticket extends Model
     use HasFactory;
 
     protected $table = 'tickets';
+    protected $fillable = ['title','content', 'category_id', 'status_id', 'user_id', 'assigned_to'];
 
 
     public function createdBy()
