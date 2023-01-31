@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Ticket;
 use App\Http\Requests\StoreTicketRequest;
+use App\Http\Requests\UpdateTicketAssignedToRequest;
 use App\Http\Requests\UpdateTicketRequest;
+use App\Http\Requests\UpdateTicketStatusRequest;
 use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
@@ -64,6 +66,35 @@ class TicketController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\UpdateTicketStatusRequest  $request
+     * @param  \App\Models\Ticket  $ticket
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(UpdateTicketStatusRequest $request, Ticket $ticket){
+        $validated = $request->validated();
+        $ticket->update($validated);
+
+        return Ticket::all();
+    }
+
+
+        /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\UpdateTicketStatusRequest  $request
+     * @param  \App\Models\Ticket  $ticket
+     * @return \Illuminate\Http\Response
+     */
+    public function updateAssignedTo(UpdateTicketAssignedToRequest $request, Ticket $ticket){
+        $validated = $request->validated();
+        $ticket->update($validated);
+
+        return Ticket::all();
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Ticket  $ticket
@@ -73,4 +104,6 @@ class TicketController extends Controller
     {
         //
     }
+
+
 }

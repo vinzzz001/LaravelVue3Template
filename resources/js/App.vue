@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { RouterView, RouterLink } from "vue-router";
+import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <RouterLink to="/login">Login</RouterLink>
-
   <RouterView />
+  <router-link :to="{ name: 'ticket.overview' }">return</router-link>
 </template>

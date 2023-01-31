@@ -50,6 +50,8 @@ export const storeModuleFactory = <T extends { id: number }>(
       delete state.value[id];
     },
   };
+
+  //todo: Should these getAll be named setAll?
   const actions = {
     getAll: async () => {
       const { data } = await axios.get(`api/${moduleName}`);
@@ -78,7 +80,7 @@ export const storeModuleFactory = <T extends { id: number }>(
   };
   return {
     getters,
-    setters,
+    // setters, //Setters shouldn't be accesible, right?
     actions,
   };
 };

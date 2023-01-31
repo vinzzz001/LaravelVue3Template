@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateStatusRequest extends FormRequest
+class UpdateTicketStatusRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,6 +13,9 @@ class UpdateStatusRequest extends FormRequest
      */
     public function authorize()
     {
+        if(auth()->user()->is_admin == true) return true; //Admin privileges.
+        if(auth()->id == $this->assigned_to) return true; //Assigned user may change status.
+
         return false;
     }
 
@@ -24,7 +27,7 @@ class UpdateStatusRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'status_id'=> 'required|numeric',
         ];
     }
 }

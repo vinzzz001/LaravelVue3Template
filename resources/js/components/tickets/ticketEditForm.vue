@@ -7,11 +7,7 @@ const categories = categoryStore.getters.all;
 const statuses = statusStore.getters.all;
 const users = userStore.getters.all;
 const me = authStore.getters.me;
-const ticket = JSON.parse(JSON.stringify(props.ticket)); // todo: use something like this.
-
-userStore.actions.getAll();
-statusStore.actions.getAll();
-categoryStore.actions.getAll();
+const ticket = JSON.parse(JSON.stringify(props.ticket));
 </script>
 
 <template>
@@ -19,17 +15,12 @@ categoryStore.actions.getAll();
     <thead>
       <tr>
         <th
-          v-for="column in [
-            'title',
-            'content',
-            'category',
-            'status',
-            'assigned to',
-          ]"
+          v-for="column in ['title', 'content', 'category', 'status']"
           :key="column"
         >
           {{ column }}
         </th>
+        <th v-if="me.is_admin">assigned to</th>
       </tr>
     </thead>
     <tbody>

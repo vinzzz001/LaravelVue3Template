@@ -37,7 +37,6 @@ const actions = {
 
   me: async () => {
     const { data } = await axios.get("api/me");
-    console.log(data);
     if (!data) return;
     setters.setAuth(data);
   },
@@ -45,6 +44,6 @@ const actions = {
 
 export const store = {
   getters,
-  setters,
+  // setters, //Setters shouldn't be accesible externally, right?
   actions,
 };

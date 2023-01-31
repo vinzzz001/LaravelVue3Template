@@ -13,10 +13,12 @@ class UpdateTicketRequest extends FormRequest
      */
     public function authorize()
     {
-        //todo: Test if another, no auth user, can change his/her tickets.
         $me = auth()->user();
-        if($this->user_id != $me->id && $me->is_admin != true) return false;
-        // if($me->is_admin != true && $this->assigned_to) unset($this->assigned_to);
+
+        if($me->is_admin == true) return true; //Admin privileges.
+
+        if($this->user_id != $me->id) return false; //Ignore non-owner users.
+        if($this->assigned_to) unset($this->assigned_to); //Removes non-admin-editable data.
 
         return true;
     }

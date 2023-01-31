@@ -38,12 +38,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('me', [AuthController::Class, 'me']);
     Route::get('logout', [AuthController::Class, 'logout']);
     Route::post('refresh', [AuthController::Class, 'refresh']);
-    Route::post('tickets/{ticket}',[TicketController::Class, 'update']);
 
     Route::post('tickets',[TicketController::Class, 'store']);
+    Route::post('tickets/{ticket}',[TicketController::Class, 'update']);
+    Route::post('tickets/{ticket}/update-ticket-status', [TicketController::Class, 'updateStatus']);
+    Route::post('tickets/{ticket}/update-ticket-assignment', [TicketController::Class, 'updateAssignedTo']);
 
     // Route::get('tickets/create', [TicketController::Class, 'create']);
-
-
-
 });

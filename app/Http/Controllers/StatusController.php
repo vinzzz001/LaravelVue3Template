@@ -62,18 +62,6 @@ class StatusController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateStatusRequest  $request
-     * @param  \App\Models\Status  $status
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateStatusRequest $request, Status $status)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Status  $status
@@ -83,4 +71,6 @@ class StatusController extends Controller
     {
         //
     }
+
+
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from "vue-router";
 import { ticketStore } from "../../store/factory";
-import ticketFormVue from "../../components/tickets/ticketForm.vue";
+import ticketFormVue from "../../components/tickets/ticketEditForm.vue";
 import { Ticket } from "../../types";
 
 const route = useRoute();
@@ -11,11 +11,8 @@ const router = useRouter();
 const ticketId = parseInt(route.params.id) || 0;
 const ticket = ticketStore.getters.byId(ticketId);
 
-ticketStore.actions.getById(ticketId);
-
 const updateForm = (ticket: Ticket) => {
   ticketStore.actions.update(ticket.id, ticket);
-  router.push({ name: "Tickets" });
 };
 </script>
 
@@ -33,5 +30,4 @@ const updateForm = (ticket: Ticket) => {
   </div>
 
   <br />
-  <router-link :to="{ name: 'Tickets' }">return</router-link>
 </template>

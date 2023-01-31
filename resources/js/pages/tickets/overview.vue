@@ -1,20 +1,13 @@
 <script setup lang="ts">
 import { computed } from "@vue/reactivity";
 import { RouterLink } from "vue-router";
-import { Category, Status, User, Ticket } from "../../types";
+import { Category, Status, User } from "../../types";
 import {
   categoryStore,
   statusStore,
   ticketStore,
   userStore,
 } from "/resources/js/store/factory";
-import { store as authStore } from "/resources/js/store/authStore";
-import { ref } from "vue";
-
-categoryStore.actions.getAll();
-statusStore.actions.getAll();
-ticketStore.actions.getAll();
-userStore.actions.getAll();
 
 const categories = categoryStore.getters.all;
 const statuses = statusStore.getters.all;
@@ -49,16 +42,17 @@ const userName = (id: number) => {
   if (!user) return null;
   return user.full_name;
 };
-
-// const updateAssignedTo = (ticket: Ticket) => {
-//   ticketStore.actions.update(ticket.id, ticket);
-// };
-
-const isAdmin = authStore.getters.me.value.is_admin || false;
 </script>
+
 <template>
+  <div class="box"><router-view></router-view></div>
   <h1>Overview Page</h1>
-  <router-link :to="{ name: 'TicketCreate' }">Create Ticket</router-link>
+  <p>
+    <router-link :to="{ name: 'ticket.create' }">Create Ticket</router-link>
+  </p>
+  <p>
+    <router-link :to="{ name: 'category.overview' }">Categories</router-link>
+  </p>
 
   <table>
     <thead>
@@ -83,7 +77,7 @@ const isAdmin = authStore.getters.me.value.is_admin || false;
       <tr v-for="ticket in sortedTickets">
         <td>
           <router-link
-            :to="{ name: 'TicketShow', params: { id: <number>ticket.id } }"
+            :to="{ name: 'ticket.show', params: { id: <number>ticket.id } }"
             >{{ ticket.id }}
           </router-link>
         </td>
@@ -91,27 +85,19 @@ const isAdmin = authStore.getters.me.value.is_admin || false;
         <td>{{ categoryTitle(ticket.category_id) }}</td>
         <td>{{ statusTitle(ticket.status_id) }}</td>
         <td>{{ userName(ticket.user_id) }}</td>
-        <td>{{ ticket.created_at }}</td>
-        <td>{{ ticket.updated_at }}</td>
 
-        <!-- The list of available user, with the current one selected. -->
+        <!-- This is a quick and dirty way to get shorter time annotation. -->
+        <td>{{ ticket.created_at.slice(0, 10) }}</td>
+        <td>{{ ticket.updated_at.slice(0, 10) }}</td>
 
-        <td>
-          {{ userName(ticket.assigned_to) }}
-
-          <!-- <template v-else>
-            <select
-              id="status"
-              :value="ticket.assigned_to"
-              @change="updateAssignedTo(ticket)"
-            >
-              <option v-for="user in users" :key="user.id" :value="user.id">
-                {{ user.full_name }}
-              </option>
-            </select>
-          </template> -->
-        </td>
+        <td>{{ userName(ticket.assigned_to) }}</td>
       </tr>
     </tbody>
   </table>
 </template>
+
+<style scoped>
+.box {
+  border: 1px outset black;
+}
+</style>

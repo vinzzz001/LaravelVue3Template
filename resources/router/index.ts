@@ -1,29 +1,46 @@
-//todo: create some paths
-import ticketOverviewPage from "../js/pages/tickets/overview.vue";
-import ticketShowPage from "../js/pages/tickets/show.vue";
-import ticketCreatePage from "../js/pages/tickets/create.vue";
-import ticketEditPage from "../js/pages/tickets/edit.vue";
+import ticketCreate from "../js/pages/tickets/create.vue";
+import ticketEdit from "../js/pages/tickets/edit.vue";
+import ticketIndex from "../js/pages/tickets/index.vue";
+import ticketOverview from "../js/pages/tickets/overview.vue";
+import ticketShow from "../js/pages/tickets/show.vue";
 
-import loginPage from "../js/pages/users/index.vue";
-import random from "../js/pages/tickets/random.vue";
+import categoryCreate from "../js/pages/categories/create.vue";
+import categoryEdit from "../js/pages/categories/edit.vue";
+import categoryOverview from "../js/pages/categories/overview.vue";
+import categoryShow from "../js/pages/categories/show.vue";
 
-// { path: string, name: string, component: Component, props ?: boolean }
+import login from "../js/pages/users/index.vue";
+import { routerKey } from "vue-router";
+
 export const routes = [
-  { path: "/ticket/overview", name: "Tickets", component: ticketOverviewPage },
-  { path: "/ticket/create", name: "TicketCreate", component: ticketCreatePage },
-  { path: "/ticket/edit/:id", name: "TicketEdit", component: ticketEditPage },
-
   {
-    path: "/ticket/:id",
-    name: "TicketShow",
-    component: ticketShowPage,
-    //todo: add authentication here?
-    // beforeEnter: (to: any, from: any, next: any) => {
-    //   if () next();
-    //   else "/ticket/overview";
-    // },
+    path: "/category",
+    // name: "category", //Strictly, no name is needed for the parent.
+    redirect: "/category/overview",
+    children: [
+      {
+        path: "overview",
+        name: "category.overview",
+        component: categoryOverview,
+      },
+      { path: "create", name: "category.create", component: categoryCreate },
+      { path: "edit/:id", name: "category.edit", component: categoryEdit },
+      { path: ":id", name: "category.show", component: categoryShow },
+    ],
   },
 
-  { path: "/random", name: "random", component: random },
-  { path: "/login", name: "Login", component: loginPage },
+  { path: "/login", name: "login", component: login },
+
+  {
+    path: "/ticket",
+
+    component: ticketIndex,
+    redirect: "/ticket/overview",
+    children: [
+      { path: "overview", name: "ticket.overview", component: ticketOverview },
+      { path: "create", name: "ticket.create", component: ticketCreate },
+      { path: "edit/:id", name: "ticket.edit", component: ticketEdit },
+      { path: ":id", name: "ticket.show", component: ticketShow },
+    ],
+  },
 ];
