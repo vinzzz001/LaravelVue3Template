@@ -1,18 +1,21 @@
 <script setup lang="ts">
 import { categoryStore, statusStore, userStore } from "../../store/factory";
 import { store as authStore } from "../../store/authStore";
+import selectInput from "../forms/selectInput.vue";
+import { ref } from "vue";
+
 const props = defineProps(["ticket"]);
 
 const categories = categoryStore.getters.all;
 const statuses = statusStore.getters.all;
 const users = userStore.getters.all;
 const me = authStore.getters.me;
-const ticket = JSON.parse(JSON.stringify(props.ticket));
+const ticket = ref(JSON.parse(JSON.stringify(props.ticket)));
 </script>
 
 <template>
-  <table>
-    <thead>
+  <table class="table">
+    <thead class="table-primary">
       <tr>
         <th
           v-for="column in ['title', 'content', 'category', 'status']"
@@ -23,52 +26,74 @@ const ticket = JSON.parse(JSON.stringify(props.ticket));
         <th v-if="me.is_admin">assigned to</th>
       </tr>
     </thead>
+
     <tbody>
       <tr>
         <td>
-          <input id="title" name="title" type="text" v-model="ticket.title" />
+          <input
+            id="title"
+            class="form-control"
+            name="title"
+            type="text"
+            v-model="ticket.title"
+          />
         </td>
+
         <td>
           <input
             id="content"
+            class="form-control"
             name="content"
             type="text"
             v-model="ticket.content"
           />
         </td>
+
         <td>
-          <select id="category" :v-if="categories" v-model="ticket.category_id">
-            <option
-              v-for="category in categories"
-              :key="category.id"
-              :value="category.id"
-            >
-              {{ category.title }}
-            </option>
-          </select>
-        </td>
-        <td>
-          <select id="status" :v-if="statuses" v-model="ticket.status_id">
-            <option
-              v-for="status in statuses"
-              :key="status.id"
-              :value="status.id"
-            >
-              {{ status.title }}
-            </option>
-          </select>
-        </td>
-        <!-- Only allow for changing assigned_to if admin.  -->
-        <td v-if="me.is_admin">
-          <select id="assigned_to" v-model="ticket.assigned_to">
-            <option v-for="user in users" :key="user.id" :value="user.id || 0">
-              {{ user.full_name }}
-            </option>
-          </select>
+          <select-input
+            :array="categories"
+            property="title"
+            :value="ticket.category_id"
+            @change-id="(id: number) => (ticket.category_id = id)"
+          />
         </td>
 
-        <button @click="$emit('submitForm', ticket)">Submit</button>
+        <td>
+          <select-input
+            :array="statuses"
+            property="title"
+            :value="ticket.status_id"
+            @change-id="(id: number) => (ticket.status_id = id)"
+          />
+        </td>
+
+        <!-- Only allow for changing assigned_to if admin.  -->
+        <td v-if="me.is_admin">
+          <select-input
+            :array="users"
+            property="full_name"
+            :value="ticket.assigned_to"
+            @change-id="(id: number) => (ticket.assigned_to = id)"
+          />
+        </td>
+
+        <td>
+          <button
+            class="btn btn-outline-primary"
+            @click="$emit('submitForm', ticket)"
+          >
+            Submit
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
 </template>
+
+<style scoped>
+.table {
+  width: unset;
+  margin: auto;
+  text-align: center;
+}
+</style>

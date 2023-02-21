@@ -13,6 +13,7 @@ class StoreCategoryRequest extends FormRequest
      */
     public function authorize()
     {
+        if(auth()->user()->is_admin == true) return true; //Admin privileges.
         return false;
     }
 
@@ -24,7 +25,7 @@ class StoreCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'string|required'
         ];
     }
 }

@@ -22,27 +22,35 @@ use Illuminate\Support\Facades\Route;
 
 //These pages don't need the user to be signed in.
 Route::post('login', [AuthController::class, 'login']);
-Route::get('tickets', [TicketController::Class, 'index']);
-Route::get('tickets/{ticket}', [TicketController::Class, 'show']);
+Route::get('tickets', [TicketController::class, 'index']);
+Route::get('tickets/{ticket}', [TicketController::class, 'show']);
 
-Route::get('users', [UserController::Class, 'index']);
-Route::get('responses', [ResponseController::Class, 'index']);
-Route::get('statuses', [StatusController::Class, 'index']);
-Route::get('categories', [CategoryController::Class, 'index']);
+Route::get('users', [UserController::class, 'index']);
+Route::get('responses', [ResponseController::class, 'index']);
+Route::get('statuses', [StatusController::class, 'index']);
+Route::get('categories', [CategoryController::class, 'index']);
 
 
 
 //Todo: Remove pages that do not require login.
 //These pages require the user to be signed in.
 Route::middleware(['auth'])->group(function () {
-    Route::get('me', [AuthController::Class, 'me']);
-    Route::get('logout', [AuthController::Class, 'logout']);
-    Route::post('refresh', [AuthController::Class, 'refresh']);
+    Route::get('me', [AuthController::class, 'me']);
+    Route::get('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
 
-    Route::post('tickets',[TicketController::Class, 'store']);
-    Route::post('tickets/{ticket}',[TicketController::Class, 'update']);
-    Route::post('tickets/{ticket}/update-ticket-status', [TicketController::Class, 'updateStatus']);
-    Route::post('tickets/{ticket}/update-ticket-assignment', [TicketController::Class, 'updateAssignedTo']);
+    Route::post('tickets',[TicketController::class, 'store']);
+    Route::post('tickets/{ticket}',[TicketController::class, 'update']);
+    Route::post('tickets/{ticket}/update-ticket-status', [TicketController::class, 'updateStatus']);
+    Route::post('tickets/{ticket}/update-ticket-assignment', [TicketController::class, 'updateAssignedTo']);
+    //Delete Route?
 
-    // Route::get('tickets/create', [TicketController::Class, 'create']);
+    Route::post('categories',[CategoryController::class, 'store']);
+    Route::post('categories/{category}',[CategoryController::class, 'update']);
+    Route::delete('categories/{category}',[CategoryController::class, 'destroy']);
+
+    //Delete?
+
+
+    // Route::get('tickets/create', [TicketController::class, 'create']);
 });

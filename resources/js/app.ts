@@ -2,6 +2,7 @@ import { createApp } from "vue";
 import { createRouter, createWebHashHistory } from "vue-router";
 import { store as authStore } from "./store/authStore";
 import { routes } from "../router/index";
+
 import App from "./App.vue";
 
 //todo: Check authentications cookie
@@ -12,8 +13,6 @@ const router = createRouter({
   routes,
 });
 
-app.use(router);
-
 /**
  * Try to recover login if the site gets (re)loaded
  */
@@ -22,5 +21,6 @@ try {
 } catch {
   // Nope
 } finally {
+  app.use(router);
   app.mount("#app");
 }

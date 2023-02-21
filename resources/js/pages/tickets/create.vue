@@ -2,14 +2,15 @@
 import { ref } from "vue";
 import { ticketStore } from "../../store/factory";
 import { Ticket } from "../../types";
-import { useRouter } from "vue-router";
 import ticketFormVue from "../../components/tickets/ticketEditForm.vue";
+import { useRouter } from "vue-router";
 
-const ticket = ref(<Ticket>{});
 const router = useRouter();
+const ticket = ref(<Ticket>{});
 
-const createForm = async (ticket: Ticket) => {
+const createTicket = async (ticket: Ticket) => {
   await ticketStore.actions.create(ticket);
+  router.push({ name: "ticket.overview" });
 };
 </script>
 
@@ -18,6 +19,6 @@ const createForm = async (ticket: Ticket) => {
   {{}}
   <ticket-form-vue
     :ticket="ticket"
-    @submit-form="(ticket: Ticket) => createForm(ticket)"
+    @submit-form="(ticket: Ticket) => createTicket(ticket)"
   />
 </template>

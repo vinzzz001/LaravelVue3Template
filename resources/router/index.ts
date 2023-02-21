@@ -1,3 +1,7 @@
+import responseShow from "../js/pages/responses/show.vue";
+import responseOverview from "../js/pages/responses/overview.vue";
+import responseIndex from "../js/pages/responses/index.vue";
+
 import ticketCreate from "../js/pages/tickets/create.vue";
 import ticketEdit from "../js/pages/tickets/edit.vue";
 import ticketIndex from "../js/pages/tickets/index.vue";
@@ -6,16 +10,26 @@ import ticketShow from "../js/pages/tickets/show.vue";
 
 import categoryCreate from "../js/pages/categories/create.vue";
 import categoryEdit from "../js/pages/categories/edit.vue";
+import categoryIndex from "../js/pages/categories/index.vue";
 import categoryOverview from "../js/pages/categories/overview.vue";
-import categoryShow from "../js/pages/categories/show.vue";
 
 import login from "../js/pages/users/index.vue";
-import { routerKey } from "vue-router";
+import { store as authStore } from "../js/store/authStore";
 
 export const routes = [
   {
     path: "/category",
-    // name: "category", //Strictly, no name is needed for the parent.
+    component: categoryIndex,
+
+    beforeEnter: (to: any, from: any, next: any) => {
+      // The user can only visit category pages if logged in as Admin.
+      console.log(authStore.getters.me?.value.is_admin);
+      if (authStore.getters.me?.value.is_admin) {
+        next();
+      } else {
+        next("/login");
+      }
+    },
     redirect: "/category/overview",
     children: [
       {
@@ -25,15 +39,29 @@ export const routes = [
       },
       { path: "create", name: "category.create", component: categoryCreate },
       { path: "edit/:id", name: "category.edit", component: categoryEdit },
-      { path: ":id", name: "category.show", component: categoryShow },
     ],
   },
 
   { path: "/login", name: "login", component: login },
 
   {
-    path: "/ticket",
+    path: "/responses",
+    component: responseIndex,
 
+    redirect: "/responses/overview",
+    children: [
+      {
+        path: "overview",
+        name: "response.overview",
+        component: responseOverview,
+      },
+
+      { path: ":id", name: "response.show", component: responseShow },
+    ],
+  },
+
+  {
+    path: "/ticket",
     component: ticketIndex,
     redirect: "/ticket/overview",
     children: [

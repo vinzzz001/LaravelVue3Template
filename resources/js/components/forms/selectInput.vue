@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { type PropType } from "vue";
 
 // ["array", "property", "value"]
 const props = withDefaults(
@@ -20,7 +19,11 @@ const idValue = ref(props.value) || -1; //Editable value.
 </script>
 
 <template v-if="idValue">
-  <select v-model="idValue" @change="emits('change-id', idValue)">
+  <select
+    class="form-select"
+    v-model="idValue"
+    @change="emits('change-id', idValue)"
+  >
     <option v-for="element in array" :key="element.id" :value="element.id">
       {{ element[property] }}
     </option>
@@ -28,5 +31,7 @@ const idValue = ref(props.value) || -1; //Editable value.
 </template>
 
 <style scoped>
-/* Styling here! */
+/* Styling here!
+  Adding bootstrap was very easy here!
+*/
 </style>

@@ -11,8 +11,9 @@ const router = useRouter();
 const ticketId = parseInt(route.params.id) || 0;
 const ticket = ticketStore.getters.byId(ticketId);
 
-const updateForm = (ticket: Ticket) => {
-  ticketStore.actions.update(ticket.id, ticket);
+const updateForm = async (ticket: Ticket) => {
+  await ticketStore.actions.update(ticket.id, ticket);
+  router.push({ name: "ticket.overview" });
 };
 </script>
 

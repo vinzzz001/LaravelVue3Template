@@ -40,13 +40,14 @@ class TicketController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified ticket with responses.
      *
      * @param  \App\Models\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
     public function show(Ticket $ticket)
     {
+        $ticket = $ticket->load('responses');
         return $ticket;
     }
 
@@ -76,7 +77,7 @@ class TicketController extends Controller
         $validated = $request->validated();
         $ticket->update($validated);
 
-        return Ticket::all();
+        return $ticket;
     }
 
 
@@ -91,7 +92,7 @@ class TicketController extends Controller
         $validated = $request->validated();
         $ticket->update($validated);
 
-        return Ticket::all();
+        return $ticket;
     }
 
     /**

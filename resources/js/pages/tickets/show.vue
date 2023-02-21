@@ -8,38 +8,41 @@ import {
 } from "../../store/factory";
 import { store as authStore } from "/resources/js/store/authStore";
 import ticketTable from "../../components/tickets/ticketShowTable.vue"; //todo: rename!
-import { Ticket } from "../../types";
+import responseIndex from "../responses/index.vue";
+import type { Ticket } from "../../types";
 import { ref } from "vue";
 
 const route = ref(useRoute()).value; //@ts-ignore
 const ticketId: number = parseInt(route?.params.id) || 0;
 
+ticketStore.actions.getById(ticketId);
 const ticket = ticketStore.getters.byId(ticketId);
 const me = authStore.getters.me;
 const users = userStore.getters.all;
 const statuses = statusStore.getters.all;
 const categories = categoryStore.getters.all;
 
-const updateTicketStatus = (ticket: Ticket) => {
-  ticketStore.actions.updateTicketStatus(ticket);
+const updateTicketStatus = (t: Ticket) => {
+  ticketStore.actions.updateTicketStatus(t);
 };
 
-const assignTicket = (ticket: Ticket) => {
-  ticketStore.actions.updateTicketAssignment(ticket);
+const assignTicket = (t: Ticket) => {
+  ticketStore.actions.updateTicketAssignment(t);
 };
 </script>
 
 <template>
   <h1>Show Page!</h1>
 
+  <pre>{{ ticket }}</pre>
   <br />
   <br />
 
   <ticket-table
     v-if="ticket && me && users && statuses && categories"
     :id="ticketId"
-    @update-ticket-status="(ticket: Ticket) => updateTicketStatus(ticket)"
-    @update-ticket-assignment="(ticket: Ticket) => assignTicket(ticket)"
+    @update-ticket-status="(t: Ticket) => updateTicketStatus(t)"
+    @update-ticket-assignment="(t: Ticket) => assignTicket(t)"
   />
 
   <router-link
@@ -48,4 +51,7 @@ const assignTicket = (ticket: Ticket) => {
   >
     Edit
   </router-link>
+
+  <!-- Todo: Is this the best way? -->
+  <response-index></response-index>
 </template>

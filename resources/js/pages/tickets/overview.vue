@@ -45,17 +45,13 @@ const userName = (id: number) => {
 </script>
 
 <template>
-  <div class="box"><router-view></router-view></div>
   <h1>Overview Page</h1>
   <p>
     <router-link :to="{ name: 'ticket.create' }">Create Ticket</router-link>
   </p>
-  <p>
-    <router-link :to="{ name: 'category.overview' }">Categories</router-link>
-  </p>
 
-  <table>
-    <thead>
+  <table class="table">
+    <thead class="table-primary">
       <tr>
         <th
           v-for="column in [
@@ -83,7 +79,7 @@ const userName = (id: number) => {
         </td>
         <td>{{ ticket.title }}</td>
         <td>{{ categoryTitle(ticket.category_id) }}</td>
-        <td>{{ statusTitle(ticket.status_id) }}</td>
+        <td class="text-nowrap">{{ statusTitle(ticket.status_id) }}</td>
         <td>{{ userName(ticket.user_id) }}</td>
 
         <!-- This is a quick and dirty way to get shorter time annotation. -->
@@ -96,8 +92,4 @@ const userName = (id: number) => {
   </table>
 </template>
 
-<style scoped>
-.box {
-  border: 1px outset black;
-}
-</style>
+<style scoped></style>

@@ -30,9 +30,11 @@ export const storeModuleFactory = <T extends { id: number }>(
      */
     byId: (id: number) => computed(() => state.value[id]),
   };
+
   const setters = {
     /**
      * Set items in the state.
+     * ? Couldn't this point to the 'setbyid setter?'
      */
     setAll: (items: T[]) => {
       for (const item of items) state.value[item.id] = Object.freeze(item);
@@ -80,7 +82,7 @@ export const storeModuleFactory = <T extends { id: number }>(
   };
   return {
     getters,
-    // setters, //Setters shouldn't be accesible, right?
+    setters, //Setters shouldn't be accesible, right?
     actions,
   };
 };

@@ -21,7 +21,7 @@ export const ticketStore = {
         ticket
       );
       if (!data) return;
-      ticketStore.setters.setAll(data);
+      ticketStore.setters.setById(data);
     },
 
     updateTicketAssignment: async (ticket: Ticket) => {
@@ -30,7 +30,7 @@ export const ticketStore = {
         ticket
       );
       if (!data) return;
-      ticketStore.setters.setAll(data);
+      ticketStore.setters.setById(data);
     },
   },
 };

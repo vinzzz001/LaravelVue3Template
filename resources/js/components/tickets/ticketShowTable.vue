@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue";
+//todo: Add some kind of watcher for the ID that changes.
+
 import {
   categoryStore,
   statusStore,
@@ -8,6 +9,7 @@ import {
 } from "../../store/factory";
 import { store as authStore } from "/resources/js/store/authStore";
 import selectInput from "../forms/selectInput.vue";
+import { Ticket } from "../../types";
 
 const props = defineProps(["id"]);
 const emits = defineEmits(["updateTicketStatus", "updateTicketAssignment"]);
@@ -18,23 +20,24 @@ const statuses = statusStore.getters.all;
 const ticket = ticketStore.getters.byId(props?.id);
 const users = userStore.getters.all;
 
-const statusId = ref(ticket.value?.status_id);
-
 const updateStatus = (id: number) => {
-  ticket.value.status_id = id;
-  emits("updateTicketStatus", ticket);
+  const updateTicket = { ...ticket.value };
+  updateTicket.status_id = id;
+
+  emits("updateTicketStatus", updateTicket);
 };
+
 const updateAssingment = (id: number) => {
-  ticket.value.assigned_to = id;
-  emits("updateTicketAssignment", ticket);
+  const updateTicket = { ...ticket.value };
+  updateTicket.assigned_to = id;
+
+  emits("updateTicketAssignment", updateTicket);
 };
 </script>
 
 <template>
-  {{ ticket }}
-
-  <table>
-    <thead>
+  <table v-if="ticket" class="table">
+    <thead class="table-primary">
       <tr>
         <th
           v-for="column in ['title', 'content', 'category', 'status']"
@@ -45,7 +48,7 @@ const updateAssingment = (id: number) => {
         <th v-if="me.is_admin == true">assigned to</th>
       </tr>
     </thead>
-    <tbody v-if="ticket">
+    <tbody>
       <tr>
         <td>{{ ticket.title }}</td>
         <td>{{ ticket.content }}</td>
@@ -55,7 +58,7 @@ const updateAssingment = (id: number) => {
           <select-input
             :array="statuses"
             property="title"
-            :value="statusId"
+            :value="ticket?.status_id"
             @change-id="(id: number) => updateStatus(id)"
           />
         </td>
@@ -73,3 +76,5 @@ const updateAssingment = (id: number) => {
     </tbody>
   </table>
 </template>
+
+<style scoped></style>

@@ -21,10 +21,30 @@
   },
   "dependencies": {
     "@vitejs/plugin-vue": "^3.0.1",
+    "autoprefixer": "^10.4.13",
+    "bootstrap": "^5.2.3",
     "npm": "^9.3.0",
     "prettier": "^2.8.1",
-    "vue": "^3.2.37",
+    "sass": "^1.58.0",
+    "vue": "^3.2.47",
     "vue-loader": "^17.0.0",
     "vue-router": "^4.1.5"
-  }
+  },
+  "name": "laravelvue3template",
+  "description": "1. configure .env file\r 2. composer update\r 3. npm install",
+  "version": "1.0.0",
+  "main": "tailwind.config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinzzz001/LaravelVue3Template.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vinzzz001/LaravelVue3Template/issues"
+  },
+  "homepage": "https://github.com/vinzzz001/LaravelVue3Template#readme"
 }
