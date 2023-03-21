@@ -19,7 +19,7 @@ class ResponseFactory extends Factory
     public function definition()
     {
         return [
-            'content' => fake()->realText(maxNbChars: 200, indexSize: 2),
+            'content' => fake()->realText(maxNbChars: 800, indexSize: 2),
             'user_id' => User::factory(),
             'ticket_id' => Ticket::factory(),
         ];

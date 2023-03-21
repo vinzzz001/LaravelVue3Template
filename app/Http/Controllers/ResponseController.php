@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Response;
 use App\Http\Requests\StoreResponseRequest;
 use App\Http\Requests\UpdateResponseRequest;
+use App\Http\Requests\UpdateTicketResponseRequest;
+use App\Mail\NewResponseMail;
+use App\Models\Ticket;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+
 
 class ResponseController extends Controller
 {
@@ -19,46 +25,19 @@ class ResponseController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreResponseRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreResponseRequest $request)
+    public function store(StoreResponseRequest $request, Ticket $ticket)
     {
-        //
-    }
+        Response::create($request->validated());
+        $user = Auth::user();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Response  $response
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Response $response)
-    {
-        //
-    }
+        Mail::to('vinzzz001@gmail.com')->send(new NewResponseMail($user));
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Response  $response
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Response $response)
-    {
-        //
+        return $ticket->load('responses');
     }
 
     /**
@@ -68,9 +47,11 @@ class ResponseController extends Controller
      * @param  \App\Models\Response  $response
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateResponseRequest $request, Response $response)
-    {
-        //
+    public function update(UpdateResponseRequest $request, Ticket $ticket){
+        $validatedResponse = $request->validated();
+        Response::find($validatedResponse['id'])->update(['content' =>$validatedResponse['content']]);
+
+        return $ticket->load('responses');
     }
 
     /**

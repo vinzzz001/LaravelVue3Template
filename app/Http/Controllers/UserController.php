@@ -10,6 +10,6 @@ class UserController extends Controller
 {
     public function index()
     {
-        return UserResource::collection(User::all())->toJson();;
+        return UserResource::collection(User::all());
     }
 }

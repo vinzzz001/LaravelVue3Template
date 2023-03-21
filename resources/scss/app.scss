@@ -1,12 +1,1 @@
-@import "Bootstrap";
-@import "node_modules/bootstrap/scss/bootstrap";
-
-/**
-* Some simple styles. Vue standard.
-* todo: Move the hyperlink coloring to the right place.
-*/
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
+@import "../../node_modules/bootstrap/scss/bootstrap";

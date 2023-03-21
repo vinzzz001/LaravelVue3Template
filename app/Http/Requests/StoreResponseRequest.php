@@ -13,6 +13,7 @@ class StoreResponseRequest extends FormRequest
      */
     public function authorize()
     {
+        if(auth()->user() != null) return true; //Any user can respond
         return false;
     }
 
@@ -24,7 +25,9 @@ class StoreResponseRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'content'=> 'required|string',
+            'ticket_id'=> 'required|numeric',
+            'user_id'=> 'required|numeric',
         ];
     }
 }

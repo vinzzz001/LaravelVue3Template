@@ -13,6 +13,9 @@ class UpdateResponseRequest extends FormRequest
      */
     public function authorize()
     {
+        if(auth()->user()->is_admin == true) return true; //Admin privileges.
+        if(auth()->id == $this->user_id) return true; //Response owner may change Response.
+
         return false;
     }
 
@@ -24,7 +27,10 @@ class UpdateResponseRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'id'=> 'required|numeric',
+            'content'=> 'required|string',
+            'ticket_id'=> 'required|numeric',
+            'user_id'=> 'required|numeric',
         ];
     }
 }

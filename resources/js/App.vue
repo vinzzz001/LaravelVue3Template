@@ -3,15 +3,15 @@ import { RouterView } from "vue-router";
 import navbar from "./components/navbar/navbar.vue";
 </script>
 
-<!-- //todo: Create some CSS for this class.  -->
 <template>
-  <navbar></navbar>
+  <navbar />
 
   <div id="main-window">
     <router-view />
   </div>
 </template>
 
+<!-- //todo: Create some better CSS for this class.  -->
 <style scoped>
 #main-window {
   max-width: 75%;

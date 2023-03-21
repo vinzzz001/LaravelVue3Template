@@ -9,6 +9,7 @@ class Response extends Model
 {
     use HasFactory;
     protected $table = 'responses';
+    protected $fillable = ['content', 'user_id', 'ticket_id'];
 
 
     public function ticket()

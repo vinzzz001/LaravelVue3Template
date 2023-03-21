@@ -53,6 +53,15 @@ return [
             'transport' => 'mailgun',
         ],
 
+        'trap' => [
+            'transport' => 'smtp',
+            'host' => 'smtp.mailtrap.io',
+            'port' => 2525,
+            'encryption' => null,
+            'username' => env('MAIL_USERNAME'),
+            'password' => env('MAIL_PASSWORD'),
+        ],
+
         'postmark' => [
             'transport' => 'postmark',
         ],

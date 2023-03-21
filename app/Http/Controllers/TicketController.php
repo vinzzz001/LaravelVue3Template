@@ -6,7 +6,9 @@ use App\Models\Ticket;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketAssignedToRequest;
 use App\Http\Requests\UpdateTicketRequest;
+use App\Http\Requests\UpdateTicketResponseRequest;
 use App\Http\Requests\UpdateTicketStatusRequest;
+use App\Models\Response;
 use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
@@ -63,7 +65,7 @@ class TicketController extends Controller
         $validated = $request->validated();
         $ticket->update($validated);
 
-        return $ticket;
+        return $ticket->load('responses');
     }
 
     /**
@@ -77,7 +79,7 @@ class TicketController extends Controller
         $validated = $request->validated();
         $ticket->update($validated);
 
-        return $ticket;
+        return $ticket->load('responses');
     }
 
 
@@ -92,7 +94,8 @@ class TicketController extends Controller
         $validated = $request->validated();
         $ticket->update($validated);
 
-        return $ticket;
+        // todo: Return the data with resources. All the data!
+        return $ticket->load('responses');
     }
 
     /**
@@ -103,8 +106,9 @@ class TicketController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
-        //
+        //Destroy all attached responses too?
     }
+
 
 
 }
