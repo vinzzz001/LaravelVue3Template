@@ -32,7 +32,7 @@ class NewResponseMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            //todo: get user the sending? user email?
+            //? Maybe get the (fake) mail from  something like the env instead?
             from: new Address('FakeEmail@email.email', 'test'),
             subject: 'New Response Mail',
         );

@@ -1,4 +1,3 @@
-//Todo: Create Paths. Also needs to be done in vite.config.ts.
 {
   "compilerOptions": {
     "target": "ESNext",
@@ -13,15 +12,13 @@
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
-    // "baseUrl": "resources",
     "baseUrl": ".",
     "paths": {
       "/resources/*": ["./*"],
       "components/*": ["./resources/js/components/*"],
       "constants/*": ["./resources/js/constants/*"],
       "domains/*": ["./resources/js/domains/*"],
-      // "errors/*": ["./resources/js/errors/*"],
-      // "helpers/*": ["./resources/js/helpers/*"],
+
       "routes/*": ["./resources/js/routes/*"],
       "services/*": ["./resources/js/services/*"],
       "types/*": ["./resources/js/types/*"]

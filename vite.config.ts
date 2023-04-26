@@ -4,7 +4,6 @@ import laravel from "laravel-vite-plugin";
 import path from "path";
 import vue from "@vitejs/plugin-vue";
 
-//todo: can the filename be inline?
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 

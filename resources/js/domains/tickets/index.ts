@@ -4,7 +4,6 @@ import Create from "domains/tickets/pages/create.vue";
 import Edit from "domains/tickets/pages/edit.vue";
 import Show from "domains/tickets/pages/show.vue";
 
-// Todo: Use the route creation service.
 export const ticketRoutes = [
   { path: "/ticket", name: "ticket.overview", component: Overview },
   { path: "/ticket/create", name: "ticket.create", component: Create },

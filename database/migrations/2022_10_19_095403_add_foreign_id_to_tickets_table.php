@@ -14,7 +14,6 @@ return new class extends Migration
      */
     public function up()
     {
-        //todo: get categoryId en STatusId working. probably something wrong in the models.
         Schema::table('tickets', function (Blueprint $table) {
             $table->foreignId('category_id')->nullable();
             $table->foreignId('status_id')->nullable();

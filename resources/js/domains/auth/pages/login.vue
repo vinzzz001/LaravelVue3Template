@@ -11,6 +11,7 @@ authStore.actions.me();
 const me = authStore.getters.me;
 
 //Todo: Empty the temporary email/password
+//? Could this be done from an env-like file? even if it is only needed for testing purposes.
 const credentials = ref<Credentials>({
   email: "vinzzz001@gmail.com",
   password: "password",

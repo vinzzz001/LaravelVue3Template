@@ -11,7 +11,7 @@ import navbar from "./components/navbar/navbar.vue";
   </div>
 </template>
 
-<!-- //todo: Create some better CSS for this class.  -->
+<!-- //! This isn't the best solution, but because of the scoped style it shouldn't influence any other part of the project  -->
 <style scoped>
 #main-window {
   max-width: 75%;

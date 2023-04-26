@@ -8,7 +8,6 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     * todo: Hash password
      * @return void
      */
     public function up()

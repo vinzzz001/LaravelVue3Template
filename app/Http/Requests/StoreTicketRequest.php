@@ -23,7 +23,6 @@ class StoreTicketRequest extends BaseFormRequest
      */
     public function rules()
     {
-        //todo: Create validation rules.
         return [
             'title'=> 'required|string' ,
             'content'=> 'nullable|string',

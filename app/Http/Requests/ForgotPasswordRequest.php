@@ -11,8 +11,6 @@ class ForgotPasswordRequest extends BaseFormRequest
      */
     public function authorize(): bool
     {
-        //todo: check if the auth token exists + is of the correct user.
-
         return true;
     }
 

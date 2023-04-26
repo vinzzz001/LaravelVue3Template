@@ -96,7 +96,6 @@ class TicketController extends Controller
         $validated = $request->validated();
         $ticket->update($validated);
 
-        // todo: Return the data with resources. All the data!
         return new TicketResource($ticket->load('responses'));
     }
 

@@ -49,7 +49,6 @@ const submitResponse = async (content: string) => {
   </div>
   <base-form-error name="content" />
 
-  <!-- //todo: remove this whitespacing. -->
   <br /><br /><br />
 </template>
 

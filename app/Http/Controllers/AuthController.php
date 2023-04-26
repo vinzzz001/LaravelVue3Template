@@ -55,7 +55,7 @@ class AuthController extends Controller
             // 'user' => new LoggedInUserResource($user),
         ];
 
-        //todo: ask what this 'production' does here.
+        //? What does 'production' do here.
         $secureCookie = config('app.env') === 'production';
 
         return (new JsonResponse($responseData, Response::HTTP_OK))->cookie(self::COOKIE_NAME, "Bearer {$token}", 60 * 24 * 30, '/', '', $secureCookie, true);

@@ -8,13 +8,12 @@ import App from "./App.vue";
 
 const app = createApp(App);
 
-//todo: use the router 'helper?'
+//todo: use the router 'helper' instead?
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
 });
 
-//todo: Move the authstore action somewhere else? Maybe in the App.vue?
 /**
  * Try to recover login if the site gets (re)loaded
  */

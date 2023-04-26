@@ -2,9 +2,6 @@ export interface Credentials {
   email: string;
   password: string;
   passwordConfirmation?: string;
-  moreData: {
-    something: string;
-  };
 }
 export interface ResetCredentials extends Credentials {
   token?: string;

@@ -29,7 +29,6 @@ class UserController extends Controller
         $validated = $request->validated();
         $user = User::Create($validated);
 
-        // todo: create a new mail response.
         Mail::to($user->email)->send(new NewResponseMail($user));
         return new UserResource($user);
     }
