@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-        // Separate call to the UserSeeder as to generate a specific test user.
+        // Separate call to the UserSeeder as to generate a specific admin user for testing purposes.
         $this->call([
             UserSeeder::class,
         ]);
@@ -30,8 +30,9 @@ class DatabaseSeeder extends Seeder
             ['title' => 'done'],
         ))->create();
         \App\Models\Category::factory(10)->create();
-        \App\Models\Response::factory(10)->create();
         \App\Models\Ticket::factory(10)->create();
+        \App\Models\Response::factory(10)->create();
+        \App\Models\Note::factory(10)->create();
 
         // \App\Models\User::factory(10)->create();
         // \App\Models\User::factory()->create([

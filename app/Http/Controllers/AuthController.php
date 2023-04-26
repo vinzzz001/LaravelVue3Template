@@ -5,8 +5,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Auth\Guard;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ForgotPasswordRequest;
+use App\Http\Requests\ResetPasswordRequest;
+use App\Http\Requests\LoginRequest;
+use App\Mail\ResetPasswordMail;
+use App\Models\User;
+use Error;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
 use PHPOpenSourceSaver\JWTAuth\JWTGuard;
 
 class AuthController extends Controller
@@ -32,15 +40,14 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(): JsonResponse
+    public function login(LoginRequest $request): JsonResponse
     {
-        $credentials = request(['email', 'password']);
+        $validated = $request->validated();
 
-        if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        if (!$token = auth()->attempt($validated)) {
+            return abort(401, 'Wrong Username or Password',  ['error' => 'Wrong Username or Password']);;
         }
-
-        $user = $this->guard->userOrFail();
+        $user = $this->guard->userOrFail(); //This should always work, since the login succeeded.
 
         $responseData = [
             'status' => 'success',
@@ -86,5 +93,55 @@ class AuthController extends Controller
     public function refresh()
     {
         return $this->respondWithToken(auth()->refresh());
+    }
+
+    /**
+     * Sends a reset mail to recover forgotten pasword using a reset token that is put in the database.
+     *
+     * @return void
+     */
+    public function forgot(ForgotPasswordRequest $request) {
+        //recieve email to send to.
+        $validated = $request->validated();
+
+
+        $user = User::Where('email', $validated)->firstOrFail();
+
+        //Create token
+        $token = substr(str_replace(['+', '/', '='], '', base64_encode(random_bytes(32))), 0, 32);
+
+        //put token in user database
+        $user->reset_token = $token;
+        $user->push();
+
+        //mail link + token
+        $mail = Mail::to('vinzzz001@gmail.com')->send(new ResetPasswordMail($user, $token));
+
+
+        return response()->json(['message' => 'Response Mail Send']);
+    }
+
+
+    /**
+     * Resets the password of the user
+     *
+     * @return void
+     */
+    public function reset(ResetPasswordRequest $request) //token?
+    {
+        $validated = $request->validated();
+
+        //The user that should have the reset token.
+        $user = User::firstWhere('email', $validated['email']);
+
+        //Token needs to be the same and not null to allow for password reset.
+        if($user->reset_token != $validated["token"] || $user->reset_token == null) return abort(422, 'reset-token mismatch');
+
+        //Set password and reset token
+        $user->password =  password_hash($validated['password'], PASSWORD_BCRYPT);
+        $user->reset_token = null;
+        $user->push();
+
+        return;
     }
 }

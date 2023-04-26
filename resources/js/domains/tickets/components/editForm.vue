@@ -4,6 +4,7 @@ import { categoryStore } from "domains/categories";
 import { userStore } from "domains/users";
 import { authStore } from "domains/auth";
 
+import baseFormError from "components/form/error.vue";
 import selectInput from "../../../components/form/selectInput.vue";
 import { ref } from "vue";
 
@@ -44,6 +45,7 @@ const ticket = ref(JSON.parse(JSON.stringify(props.ticket)));
             type="text"
             v-model="ticket.title"
           />
+          <base-form-error name="title" />
         </td>
 
         <td>
@@ -54,6 +56,7 @@ const ticket = ref(JSON.parse(JSON.stringify(props.ticket)));
             type="text"
             v-model="ticket.content"
           />
+          <base-form-error name="content" />
         </td>
 
         <td>
@@ -63,6 +66,7 @@ const ticket = ref(JSON.parse(JSON.stringify(props.ticket)));
             :value="ticket.category_id"
             @change-id="(id: number) => (ticket.category_id = id)"
           />
+          <base-form-error name="category_id" />
         </td>
 
         <td>
@@ -72,6 +76,7 @@ const ticket = ref(JSON.parse(JSON.stringify(props.ticket)));
             :value="ticket.status_id"
             @change-id="(id: number) => (ticket.status_id = id)"
           />
+          <base-form-error name="status_id" />
         </td>
 
         <!-- Only allow for changing assigned_to if admin.  -->
@@ -82,6 +87,7 @@ const ticket = ref(JSON.parse(JSON.stringify(props.ticket)));
             :value="ticket.assigned_to"
             @change-id="(id: number) => (ticket.assigned_to = id)"
           />
+          <base-form-error name="assigned_to_id" />
         </td>
 
         <td>

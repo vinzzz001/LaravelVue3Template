@@ -10,10 +10,11 @@ import { TICKETSTATUS as statuses } from "constants/index";
 import { authStore } from "domains/auth";
 import ticketTable from "domains/tickets/components/showTable.vue"; //todo: rename!
 import responseOverview from "domains/responses/pages/overview.vue";
+import noteOverview from "domains/notes/pages/overview.vue";
 import type { Ticket } from "domains/tickets/types";
 
-const route = ref(useRoute()).value;
-const ticketId: number = parseInt(<string>route?.params.id) || 0;
+const route = useRoute();
+const ticketId: number = parseInt((<string>route?.params.id) as string) || 0;
 
 categoryStore.actions.getAll();
 ticketStore.actions.getById(ticketId);
@@ -32,10 +33,10 @@ const assignTicket = (t: Ticket) => {
 };
 </script>
 
+<!-- todo: Shows the wrong category -->
 <template>
   <h1>Show Page!</h1>
 
-  <!-- //todo: set v-if back on the table -->
   <ticket-table
     v-if="ticket && me && users && statuses && categories"
     :id="ticketId"
@@ -50,6 +51,7 @@ const assignTicket = (t: Ticket) => {
     Edit
   </router-link>
 
-  <!-- Todo: Is this the best way? -->
-  <response-overview v-if="ticket?.responses" :responses="ticket?.responses" />
+  <!-- ? Is this the best way? -->
+  <response-overview v-if="ticket?.responses" :ticket="ticket" />
+  <note-overview v-if="ticket?.notes && me.is_admin == true" :ticket="ticket" />
 </template>

@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from "vue";
 import { categoryStore } from "domains/categories";
+import baseFormError from "components/form/error.vue";
+import { Category } from "../types";
+
 // import alertMessage from "../../components/errors/alertMessage.vue";
 
-const selectedCategoryId = ref<number>(0);
+const selectedCategory = ref<Category>();
 
 categoryStore.actions.getAll();
 const categories = categoryStore.getters.all;
@@ -31,21 +34,24 @@ const alert = (message: string) => {
   alertApp.value.mount(alertPlaceholder.value);
 };
 
-const categoryDelete = async (id: number) => {
+const categoryDelete = async (category: Category) => {
+  if (category == null) return;
   try {
-    await categoryStore.actions.delete(id);
+    await categoryStore.actions.delete(category);
   } catch (e: any) {
-    alert(e.response.data.message);
+    alert(e.response.data.message || "test");
   }
 };
 
-const setSelectedCategory = (id: number) => {
-  selectedCategoryId.value = id;
+const setSelectedCategory = (category: Category) => {
+  selectedCategory.value = category;
 };
 </script>
 
 <template>
   <h1>Categories Overview Page</h1>
+  <base-form-error name="id" />
+
   <p>
     <router-link :to="{ name: 'category.create' }">Create Category</router-link>
   </p>
@@ -77,7 +83,7 @@ const setSelectedCategory = (id: number) => {
 
         <!-- Modal Body Text -->
         <div class="modal-body">
-          <pre>{{ categories.find((x) => x.id === selectedCategoryId) }}</pre>
+          <pre>{{ categories.find((x) => x.id === selectedCategory?.id) }}</pre>
         </div>
 
         <!-- Modal Cancel/Delete Buttons -->
@@ -92,7 +98,7 @@ const setSelectedCategory = (id: number) => {
           <button
             type="button"
             class="btn btn-danger"
-            @click="categoryDelete(selectedCategoryId)"
+            @click="categoryDelete(selectedCategory)"
             data-bs-dismiss="modal"
           >
             Delete
@@ -141,7 +147,7 @@ const setSelectedCategory = (id: number) => {
         <td class="col-1">
           <b
             href=""
-            @click="setSelectedCategory(category.id)"
+            @click="setSelectedCategory(category)"
             class="link-danger"
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"

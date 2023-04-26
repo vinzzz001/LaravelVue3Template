@@ -28,6 +28,11 @@ class Ticket extends Model
         return $this->hasMany(Response::class);
     }
 
+    public function notes()
+    {
+        return $this->hasMany(Note::class);
+    }
+
     public function status()
     {
         return $this->belongsTo(Status::class);

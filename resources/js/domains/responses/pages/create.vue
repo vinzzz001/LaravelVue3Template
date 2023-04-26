@@ -4,6 +4,8 @@ import { useRoute } from "vue-router";
 import { responseStore } from "domains/responses";
 import { authStore } from "domains/auth";
 import type { Response } from "domains/responses/types";
+import baseFormError from "components/form/error.vue";
+import { ticketStore } from "domains/tickets";
 
 const newResponseContent = ref<string>("");
 
@@ -18,7 +20,9 @@ const submitResponse = async (content: string) => {
   response.user_id = me.value.id;
 
   if (!response) return;
-  responseStore.actions.createResponse(response);
+  await responseStore.actions.createResponse(response);
+  ticketStore.actions.getById(ticketId); //Reload the ticket with responses
+
   newResponseContent.value = "";
 };
 </script>
@@ -43,6 +47,9 @@ const submitResponse = async (content: string) => {
       </button>
     </div>
   </div>
+  <base-form-error name="content" />
+
+  <!-- //todo: remove this whitespacing. -->
   <br /><br /><br />
 </template>
 

@@ -1,39 +1,33 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useRoute } from "vue-router";
+import { ref, defineProps } from "vue";
+import createResponse from "./create.vue";
 
 import { userStore } from "domains/users";
-import { ticketStore } from "domains/tickets";
 import { responseStore } from "domains/responses";
 import { authStore } from "domains/auth";
 
-import createResponse from "./create.vue";
-import { deepCopy } from "../../../helpers/copy";
-
 import type { Response } from "domains/responses/types";
-import type { Ticket } from "domains/tickets/types";
 import type { User } from "domains/users/types";
 
-const route = ref(useRoute()).value; //@ts-ignore
-const ticketId: number = parseInt(route?.params.id) || 0;
-const ticket = ticketStore.getters.byId(ticketId);
+const props = defineProps(["ticket"]);
+
+// Turning this in a deepcopy breaks the repsonses.
 const users = userStore.getters.all;
-const responses = ref(deepCopy(ticket.value.responses));
 
 const me = authStore.getters.me;
 const isAdmin = me.value.is_admin;
 
-//Todo: Show only editable comments. (owner/admin)
-//todo:
-const selectetEditListItem = ref(0);
+const selectetEditListItem = ref(0); //Todo: Show only editable comments. (owner/admin)
 
 /**
  * The color of the responses. The response uses bootstrap default colors:
  * default->White for owner, primary->Blue for the assigned user, light->slightly grayish-white for unkowns.
  * @param id The id of the owner of the response.
  */
-const listItemClass = (id: number, ticket: Ticket) => {
+const listItemClass = (id: number) => {
+  const ticket = props.ticket;
   const color = ref("list-group-item-background");
+
   if (ticket.assigned_to == id) color.value = "list-group-item-secondary";
   else if (ticket.user_id == id) color.value = "list-group-item-primary";
 
@@ -41,11 +35,9 @@ const listItemClass = (id: number, ticket: Ticket) => {
 };
 
 const updateResponse = async (response: Response) => {
-  if (responses.value == undefined) return;
+  if (response == undefined) return;
 
   await responseStore.actions.updateResponse(response);
-
-  responses.value = deepCopy(ticket.value.responses); //update the repsonse values, as they aren't updated from ticket, with the deepcopy and
   selectetEditListItem.value = 0;
 };
 </script>
@@ -53,11 +45,12 @@ const updateResponse = async (response: Response) => {
 <template>
   <div>
     <ol class="list-group list-group-numbered">
-      <!-- A single response, a ticket, the users,  -->
+      <!-- A single response -->
+      <!-- //! This uses ticket.response instead of responses, since this needs to be reactive to ticket reloads. -->
       <li
-        v-for="{ ...response } in responses"
+        v-for="response in ticket.responses"
         class="list-group-item d-flex align-items-center text-start"
-        :class="listItemClass(response.user_id, ticket)"
+        :class="listItemClass(response.user_id)"
       >
         <!-- Response as normally displayed -->
         <div class="ms-2 me-auto">

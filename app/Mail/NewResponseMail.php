@@ -33,7 +33,7 @@ class NewResponseMail extends Mailable
     {
         return new Envelope(
             //todo: get user the sending? user email?
-            from: new Address('test@email.com', 'test'),
+            from: new Address('FakeEmail@email.email', 'test'),
             subject: 'New Response Mail',
         );
     }

@@ -24,8 +24,8 @@ class TicketFactory extends Factory
             "content" => fake()->text(),
             "category_id" => Category::factory(),
             "status_id" => random_int(1, 3),
-            'user_id' => User::factory(),
-            "assigned_to" => User::factory(),
+            'user_id' => rand(1, (User::all()->count())),
+            "assigned_to" => rand(1, (User::all()->count())),
             "updated_at" => fake()->dateTimeThisYear(),
         ];
     }

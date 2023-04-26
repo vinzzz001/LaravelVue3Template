@@ -21,5 +21,25 @@ export const categoryRoutes = [
 // #region Store
 import type { Category } from "./types";
 import { storeModuleFactory } from "services/store";
-export const categoryStore = storeModuleFactory<Category>("categories");
+import { putRequest } from "../../services/http";
+const baseCategoryStore = storeModuleFactory<Category>("categories");
+
+export const categoryStore = {
+  getters: baseCategoryStore.getters,
+  setters: baseCategoryStore.setters,
+  actions: {
+    ...baseCategoryStore.actions,
+
+    delete: async (category: Category) => {
+      const { data } = await putRequest(
+        `categories/${category.id}/delete`,
+        category
+      );
+
+      if (!data) return;
+      categoryStore.setters.setAll(data);
+    },
+  },
+};
+
 // #endregion

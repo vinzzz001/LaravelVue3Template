@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { categoryStore } from "domains/categories";
 import { Category } from "domains/categories/types";
 import { useRouter } from "vue-router";
+import baseFormError from "components/form/error.vue";
 
 const router = useRouter();
 
@@ -30,6 +31,7 @@ const categoryCreate = async (title: string) => {
         v-model="newCategoryTitle"
       />
       <label for="inputCategory">Category Title</label>
+      <base-form-error name="title" />
     </div>
 
     <!-- Submit -->

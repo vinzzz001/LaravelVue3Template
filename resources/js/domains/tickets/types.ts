@@ -1,3 +1,4 @@
+import { Note } from "../notes/types";
 import { Response } from "../responses/types";
 
 export interface Status {
@@ -8,10 +9,11 @@ export interface Status {
 export interface Ticket {
   id: number;
   title: string;
-  content: string;
+  content?: string;
   category_id: number;
   status_id: number;
   user_id: number;
-  assigned_to: number;
+  assigned_to?: number;
   responses?: Response[];
+  notes?: Note[];
 }

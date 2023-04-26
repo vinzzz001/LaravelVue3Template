@@ -26,6 +26,7 @@ class UserFactory extends Factory
             'is_admin' => false,
             'telephone_number' => 1234567890,
             'remember_token' => Str::random(10),
+            'reset_token' => null,
         ];
     }
 

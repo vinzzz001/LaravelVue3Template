@@ -20,8 +20,8 @@ class ResponseFactory extends Factory
     {
         return [
             'content' => fake()->realText(maxNbChars: 800, indexSize: 2),
-            'user_id' => User::factory(),
-            'ticket_id' => Ticket::factory(),
+            'user_id' => rand(1, (User::all()->count())),
+            'ticket_id' => rand(1, (Ticket::all()->count())),
         ];
     }
 }

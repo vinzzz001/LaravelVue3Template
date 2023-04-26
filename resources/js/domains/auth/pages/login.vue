@@ -5,6 +5,7 @@ import type { Credentials } from "domains/auth/types";
 import { authStore } from "domains/auth";
 import passwordInput from "domains/auth/components/passwordInput.vue";
 import emailInput from "domains/auth/components/emailInput.vue";
+import baseFormError from "components/form/error.vue";
 
 authStore.actions.me();
 const me = authStore.getters.me;
@@ -23,6 +24,7 @@ const logout = () => authStore.actions.logout();
  */
 </script>
 
+<!-- //todo: Look into the timed-logout error. -->
 <template>
   <!-- Login Information -->
   <pre>{{ authStore.getters.me?.value }}</pre>
@@ -33,10 +35,12 @@ const logout = () => authStore.actions.logout();
     <div v-if="!me.id" class="row g-2 justify-content-center">
       <div class="col-auto">
         <email-input v-model="credentials.email" />
+        <base-form-error name="email" />
       </div>
 
       <div class="col-auto">
         <password-input v-model="credentials.password" />
+        <base-form-error name="password" />
       </div>
     </div>
 
@@ -54,8 +58,10 @@ const logout = () => authStore.actions.logout();
       </button>
       <p></p>
       <router-link v-if="!me.id" :to="{ name: 'login.forgot' }"
-        >Forgot Password?</router-link
-      >
+        >Forgot Password?
+      </router-link>
+      <br />
+      <router-link :to="{ name: 'user.create' }"> Create New User </router-link>
     </div>
   </form>
 </template>

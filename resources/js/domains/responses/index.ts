@@ -12,7 +12,7 @@ export const responseStore = {
   actions: {
     ...baseResponseStore.actions,
 
-    // The responsestore needs to update the ticketstore? Could this be different?
+    //The name is intentionally not create, as it might cause confusion since it has different requirements from a normal one?
     createResponse: async (response: Omit<Response, "id">) => {
       const { data } = await postRequest(
         `responses/${response.ticket_id}`,

@@ -6,8 +6,10 @@ use App\Models\Response;
 use App\Http\Requests\StoreResponseRequest;
 use App\Http\Requests\UpdateResponseRequest;
 use App\Http\Requests\UpdateTicketResponseRequest;
+use App\Http\Resources\ResponseResource;
 use App\Mail\NewResponseMail;
 use App\Models\Ticket;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -21,7 +23,7 @@ class ResponseController extends Controller
      */
     public function index()
     {
-        return Response::all();
+        return ResponseResource::collection(Response::all());
     }
 
     /**
@@ -35,9 +37,13 @@ class ResponseController extends Controller
         Response::create($request->validated());
         $user = Auth::user();
 
-        Mail::to('vinzzz001@gmail.com')->send(new NewResponseMail($user));
+        //Get the correct users to mail.
+        $ticket_user = User::find($ticket->user_id)->email;
+        $assigned_user = User::find($ticket->assigned_to)->email;
 
-        return $ticket->load('responses');
+        Mail::to([$ticket_user, $assigned_user])->send(new NewResponseMail($user));
+
+        return new ResponseResource($ticket->load('responses'));
     }
 
     /**
@@ -51,7 +57,7 @@ class ResponseController extends Controller
         $validatedResponse = $request->validated();
         Response::find($validatedResponse['id'])->update(['content' =>$validatedResponse['content']]);
 
-        return $ticket->load('responses');
+        return new ResponseResource($ticket->load('responses'));
     }
 
     /**

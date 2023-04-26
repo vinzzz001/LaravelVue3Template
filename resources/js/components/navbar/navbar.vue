@@ -20,6 +20,12 @@
           Category Overview
         </router-link>
       </li>
+
+      <li class="nav-item">
+        <router-link class="nav-link" :to="{ name: 'user.overview' }">
+          User Overview
+        </router-link>
+      </li>
     </div>
   </nav>
 </template>

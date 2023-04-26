@@ -1,11 +1,19 @@
 <?php
 
+/**
+ * File description
+ *
+ * @tags
+ * @phpcs:disable Standard.Cat.SniffName
+ */
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DestroyCategoryRequest;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Resources\CategoryResource;
 
 class CategoryController extends Controller
 {
@@ -16,7 +24,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Category::all();
+        return CategoryResource::collection(Category::all());
     }
 
 
@@ -31,8 +39,7 @@ class CategoryController extends Controller
     {
         $validated = $request->validated();
         $category = Category::create($validated);
-
-        return $category;
+        return CategoryResource::collection(($category));
     }
 
     /**
@@ -43,18 +50,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return $category;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-
+        return new CategoryResource(($category));
     }
 
     /**
@@ -68,9 +64,7 @@ class CategoryController extends Controller
     {
         $validated = $request->validated();
         $category->update($validated);
-
-        return $category;
-
+        return new CategoryResource($category);
     }
 
     /**
@@ -81,19 +75,11 @@ class CategoryController extends Controller
      */
     public function destroy(DestroyCategoryRequest $request, Category $category)
     {
-        if($category->tickets->isEmpty()){
+        $validated = $request->validated();
+        if ($category->id == $validated['id']) {
             $category->delete();
-            return Category::all();
         }
-        else {
-            $attachedTickets = $category->tickets;
-            $attachedTicketsIds = [];
-            foreach($attachedTickets as $ticket){
-                $id = $ticket->id;
-                array_push($attachedTicketsIds, $id);
-            };
 
-            return abort(422, 'Attached tickets ['.  implode(", ",$attachedTicketsIds) .'] still exist on category ' . $category->id);
-        }
+        return CategoryResource::collection(Category::all());
     }
 }
